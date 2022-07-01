@@ -1,16 +1,19 @@
+
+    import http
+from http.client import HTTPResponse
 import re
 from unittest import result
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 
-# 'https://news.ycombinator.com/'
-urls = ['https://threatpost.com/category/vulnerabilities/']
-links = []
+urls = ['https://threatpost.com/category/vulnerabilities/', 'https://news.ycombinator.com/']
+links_store = []
 for url in urls:
     request = Request(url)
     web_page = urlopen(request)
-    soup = BeautifulSoup(web_page, 'lxml')
+    soup = BeautifulSoup(web_page, 'html.parser')
 
-    for link in soup.find_all('a'):
-        links.append(link.get('href'))
-    print(links)
+    for link in soup.find_all('a', href=True):
+        links_store = link.get('href')
+        print(links_store + "\n")
+print (len(link))
